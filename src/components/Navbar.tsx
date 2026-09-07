@@ -16,7 +16,7 @@ export default function Navbar() {
         </div>
         <div className="nav-actions" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
           <ThemeToggle />
-          <a href="tel:9953465067" className="btn btn-primary">Call Now</a>
+          <a href="#contact-form" className="btn btn-primary">Enquire Now</a>
         </div>
       </div>
     </nav>

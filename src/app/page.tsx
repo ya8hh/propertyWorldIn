@@ -14,10 +14,10 @@ export default function Home() {
             </p>
             <div className="hero-actions flex gap-4">
               <a href="#featured" className="btn btn-light">Explore Areas</a>
-              <a href="tel:9953465067" className="btn btn-outline-light">Talk to Dinesh</a>
+              <a href="#contact-form" className="btn btn-outline-light">Talk to Dinesh</a>
             </div>
           </div>
-          <div className="hero-form">
+          <div className="hero-form" id="contact-form">
             <LeadCaptureForm />
           </div>
         </div>
