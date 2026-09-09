@@ -27,6 +27,17 @@ export default function LeadCaptureForm() {
   const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyYxmU_mnPA3u4q50DbMv2yxgDZvOWJR4M7hu2wwhC1quooLyoEZNxg6WqNeZaTVs8X/exec';
 
   const [submitting, setSubmitting] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+    setFormData({ ...formData, phone: digits });
+    if (digits.length > 0 && digits.length < 10) {
+      setPhoneError('Phone number must be 10 digits');
+    } else {
+      setPhoneError('');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,14 +145,25 @@ ${utm.source ? `Source: ${utm.source}` : ''}`;
           <input 
             type="tel" 
             name="phone" 
-            placeholder="Enter your mobile number" 
+            placeholder="10-digit mobile number" 
             value={formData.phone} 
-            onChange={handleChange} 
+            onChange={handlePhoneChange}
+            maxLength={10}
+            inputMode="numeric"
             required 
           />
+          {phoneError && (
+            <span style={{ color: '#ff453a', fontSize: '0.8rem', marginTop: '4px' }}>
+              {phoneError}
+            </span>
+          )}
         </div>
 
-        <button type="submit" className="btn btn-primary mt-8" disabled={submitting}>
+        <button
+          type="submit"
+          className="btn btn-primary mt-8"
+          disabled={submitting || formData.phone.length !== 10}
+        >
           {submitting ? 'Saving...' : 'Get Property Options'}
         </button>
       </form>
