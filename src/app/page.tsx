@@ -61,8 +61,8 @@ export default function Home() {
             <p className="mb-6" style={{ fontSize: '1.125rem' }}>
               With more than 20 years in real estate, Dinesh Pal helps buyers, sellers and renters navigate property decisions across the Noida and surrounding markets.
             </p>
-            <a href="https://wa.me/919953465067?text=Hi%20Dinesh,%20I%20would%20like%20to%20discuss%20a%20property%20requirement." className="btn btn-primary" target="_blank" rel="noopener noreferrer">
-              Chat on WhatsApp
+            <a href="#contact-form" className="btn btn-primary">
+              Get in Touch
             </a>
           </div>
         </div>
