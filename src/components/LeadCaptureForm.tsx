@@ -24,8 +24,15 @@ export default function LeadCaptureForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyYxmU_mnPA3u4q50DbMv2yxgDZvOWJR4M7hu2wwhC1quooLyoEZNxg6WqNeZaTVs8X/exec';
+
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+
+    // 1. Build WhatsApp message and open immediately (must happen before any await)
     const text = `Hi Dinesh, I'm looking to ${formData.requirement} a ${formData.propertyType} in ${formData.location}.
 My budget is ${formData.budget || 'not specified'}.
 Name: ${formData.name}
@@ -34,6 +41,29 @@ ${utm.source ? `Source: ${utm.source}` : ''}`;
 
     const link = generateWhatsAppLink('9953465067', text);
     window.open(link, '_blank');
+
+    // 2. Save lead to Google Sheet silently in background
+    try {
+      const params = new URLSearchParams({
+        name: formData.name,
+        phone: formData.phone,
+        requirement: formData.requirement,
+        propertyType: formData.propertyType,
+        location: formData.location,
+        budget: formData.budget,
+        utm_source: utm.source || 'direct',
+        utm_medium: utm.medium || '',
+        utm_campaign: utm.campaign || '',
+      });
+      await fetch(`${SHEET_URL}?${params.toString()}`, {
+        method: 'GET',
+        mode: 'no-cors',
+      });
+    } catch (_) {
+      // Fail silently — don't block the user
+    }
+
+    setSubmitting(false);
   };
 
   return (
@@ -111,8 +141,8 @@ ${utm.source ? `Source: ${utm.source}` : ''}`;
           />
         </div>
 
-        <button type="submit" className="btn btn-primary mt-8">
-          Get Property Options
+        <button type="submit" className="btn btn-primary mt-8" disabled={submitting}>
+          {submitting ? 'Saving...' : 'Get Property Options'}
         </button>
       </form>
     </div>
