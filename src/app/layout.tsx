@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { siteUrl } from "@/utils/site";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
 
 export const metadata: Metadata = {
-  title: "Property World | Real Estate Brokerage in Noida",
-  description: "20+ years of real-estate experience helping you buy, sell, and rent properties across Noida, Noida Extension, Gaur City, and Ghaziabad.",
+  metadataBase: siteUrl,
+  title: { default: "Property World | Real Estate in Noida & Ghaziabad", template: "%s | Property World" },
+  description: "Buy, sell or rent flats, shops, commercial spaces and plots in Noida, Noida Extension, Gaur City and Ghaziabad with Dinesh Pal's 20+ years of experience.",
 };
 
 export default function RootLayout({
@@ -19,10 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.variable}>
+      <body>
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
           <Navbar />
-          <main style={{ paddingTop: '64px', minHeight: 'calc(100vh - 300px)' }}>
+          <main id="main-content" style={{ paddingTop: '64px', minHeight: 'calc(100vh - 300px)' }}>
             {children}
           </main>
           <Footer />

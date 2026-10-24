@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { areas, propertyTypes, displayName } from '@/utils/site';
 import './Footer.css';
 
 export default function Footer() {
@@ -11,17 +12,12 @@ export default function Footer() {
         </div>
         <div className="footer-col">
           <h4>Areas</h4>
-          <p>Noida</p>
-          <p>Noida Extension</p>
-          <p>Gaur City</p>
-          <p>Ghaziabad</p>
+          {areas.map(area => <p key={area}><Link href={`/${area}/flats`}>{displayName(area)}</Link></p>)}
         </div>
         <div className="footer-col">
           <h4>Properties</h4>
-          <p>Flats</p>
-          <p>Commercial</p>
-          <p>Shops</p>
-          <p>Plots</p>
+          <p><Link href="/inventory">Available properties</Link></p>
+          {propertyTypes.map(type => <p key={type}><Link href={`/noida/${type}`}>{displayName(type)}</Link></p>)}
         </div>
         <div className="footer-col">
           <h4>Contact</h4>
