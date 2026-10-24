@@ -12,4 +12,5 @@ export type Listing = {
   summary: string;
   features?: string[];
   images?: string[];
+  reel?: string;
 };

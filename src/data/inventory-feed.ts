@@ -1,5 +1,6 @@
 import { areas, propertyTypes } from '@/utils/site';
 import type { Listing } from './inventory';
+import { reelEmbed } from '@/utils/inventory-media';
 
 const defaultInventoryCsvUrl = 'https://docs.google.com/spreadsheets/d/1licQnyjd8UaXMPtkDSvAIhgFS1KZ_etqngPimKWRYyE/export?format=csv&gid=0';
 
@@ -48,6 +49,7 @@ export function parseInventoryCsv(csv: string): Listing[] {
     if (!title || !locality || !summary) continue;
     const bedrooms = Number(get('bedrooms'));
     const images = get('images').split('|').map(value => value.trim()).filter(value => value.startsWith('/images/listings/') || /^https:\/\//i.test(value));
+    const reel = get('reel');
     const features = get('features').split('|').map(value => value.trim()).filter(Boolean);
     listings.push({
       slug, title, area: area as Listing['area'], locality,
@@ -56,6 +58,7 @@ export function parseInventoryCsv(csv: string): Listing[] {
       ...(get('size') && { size: get('size') }),
       ...(get('bedrooms') && Number.isInteger(bedrooms) && bedrooms >= 0 && { bedrooms }),
       ...(features.length && { features }), ...(images.length && { images }),
+      ...(reelEmbed(reel) && { reel }),
     });
     seen.add(slug);
   }
